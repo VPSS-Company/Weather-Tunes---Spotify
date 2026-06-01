@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WeatherTunes</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- VIDEO BACKGROUND -->
+
+    <video
+        id="bg-video"
+        autoplay
+        muted
+        loop
+        playsinline
+    >
+        <source src="videos/cloudy.mp4" type="video/mp4">
+    </video>
+
+    <div class="overlay"></div>
+
+    <!-- MAIN CONTAINER -->
+
+    <main class="container">
+
+        <!-- WEATHER CARD -->
+
+        <section class="weather-card glass">
+
+            <div class="weather-header">
+
+                <h1 id="city">
+                    Detecting location...
+                </h1>
+
+                <p id="date"></p>
+
+            </div>
+
+            <div class="weather-main">
+
+                <h2 id="temp">
+                    --°C
+                </h2>
+
+                <p id="condition">
+                    Loading Weather...
+                </p>
+
+            </div>
+
+            <div class="weather-extra">
+
+                <div class="extra-box glass-small">
+                    <span>Humidity</span>
+                    <strong id="humidity">--%</strong>
+                </div>
+
+                <div class="extra-box glass-small">
+                    <span>Wind</span>
+                    <strong id="wind">-- km/h</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SPOTIFY PLAYER -->
+
+        <section class="spotify-wrapper glass">
+
+            <h3 class="playlist-title">
+                🎵 Current Mood Playlist
+            </h3>
+
+            <iframe
+                id="spotify-player"
+                style="border-radius:18px"
+                src=""
+                width="100%"
+                height="152"
+                frameborder="0"
+                allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+            </iframe>
+
+        </section>
+
+    </main>
+
+    <!-- JS -->
+    <script src="script.js"></script>
+
+</body>
+</html>
