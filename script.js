@@ -52,7 +52,7 @@ rain:
 "https://open.spotify.com/embed/playlist/5LAe5v55uamtXa1hILBjeQ?utm_source=generator",
 
 sunny:
-"https://open.spotify.com/playlist/6XwhBsU30XulZs4YJJ3usk?si=155caea484b94cf"
+"https://open.spotify.com/playlist/6XwhBsU30XulZs4YJJ3usk?si=155caea484b94cf",
 
 cloudy:
 "https://open.spotify.com/embed/playlist/7G8ba4IDCXRV04Q2rORD94?utm_source=generator",
@@ -61,7 +61,7 @@ night:
 "https://open.spotify.com/embed/playlist/5gikXqUHz8LvMz0oggsmm5?utm_source=generator",
 
 storm:
-"https://open.spotify.com/embed/playlist/5nB0aS2goHzFPrvxJAYlwz?utm_source=generator"
+"https://open.spotify.com/embed/playlist/5nB0aS2goHzFPrvxJAYlwz?utm_source=generator",
 
 };
 
