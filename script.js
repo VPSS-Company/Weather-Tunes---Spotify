@@ -48,12 +48,22 @@ document.getElementById("search-btn");
 
 const playlists = {
 
-rain: "https://open.spotify.com/embed/playlist/37i9dQZF1DX2mKzQ3tl6gD",
-sunny: "https://open.spotify.com/embed/playlist/37i9dQZF1DX0XUsuxWHRQd",
-cloudy: "https://open.spotify.com/embed/playlist/37i9dQZF1DX4WYpdgoIcn6",
-night: "https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO",
-storm: "https://open.spotify.com/embed/playlist/37i9dQZF1DX76Wlfdnj7AP" };
+rain:
+"https://open.spotify.com/embed/playlist/5LAe5v55uamtXa1hILBjeQ?utm_source=generator",
 
+sunny:
+"https://open.spotify.com/playlist/6XwhBsU30XulZs4YJJ3usk?si=155caea484b94cf"
+
+cloudy:
+"https://open.spotify.com/embed/playlist/7G8ba4IDCXRV04Q2rORD94?utm_source=generator",
+
+night:
+"https://open.spotify.com/embed/playlist/5gikXqUHz8LvMz0oggsmm5?utm_source=generator",
+
+storm:
+"https://open.spotify.com/embed/playlist/5nB0aS2goHzFPrvxJAYlwz?utm_source=generator"
+
+};
 
 // ---------- DATE ----------
 
