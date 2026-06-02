@@ -1,6 +1,5 @@
-```javascript
 // ===============================
-// WEATHERTUNES
+// WEATHER TUNES V2.5
 // ===============================
 
 
@@ -43,9 +42,6 @@ document.getElementById("city-input");
 const searchBtn =
 document.getElementById("search-btn");
 
-const locationBtn =
-document.getElementById("location-btn");
-
 
 
 // ---------- PLAYLISTS ----------
@@ -53,19 +49,19 @@ document.getElementById("location-btn");
 const playlists = {
 
 rain:
-"https://open.spotify.com/embed/playlist/37i9dQZF1DX2mKzQ3tl6gD",
+"YOUR_RAIN_PLAYLIST",
 
 sunny:
-"https://open.spotify.com/embed/playlist/37i9dQZF1DX0XUsuxWHRQd",
+"YOUR_SUNNY_PLAYLIST",
 
 cloudy:
-"https://open.spotify.com/embed/playlist/37i9dQZF1DX4WYpdgoIcn6",
+"YOUR_CLOUDY_PLAYLIST",
 
 night:
-"https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO",
+"YOUR_NIGHT_PLAYLIST",
 
 storm:
-"https://open.spotify.com/embed/playlist/37i9dQZF1DX76Wlfdnj7AP"
+"YOUR_STORM_PLAYLIST"
 
 };
 
@@ -73,7 +69,8 @@ storm:
 
 // ---------- DATE ----------
 
-const today = new Date();
+const today =
+new Date();
 
 dateEl.innerText =
 today.toLocaleDateString(
@@ -87,84 +84,9 @@ month:"long"
 
 
 
-// ---------- LOCATION BUTTON ----------
-
-locationBtn.addEventListener(
-
-"click",
-
-()=>{
-
-requestLocation();
-
-}
-
-);
-
-
-
-// ---------- SEARCH BUTTON ----------
-
-searchBtn.addEventListener(
-
-"click",
-
-()=>{
-
-const city =
-cityInput.value.trim();
-
-if(city){
-
-getWeatherByCity(city);
-
-}
-
-}
-
-);
-
-
-
-// ---------- ENTER KEY ----------
-
-cityInput.addEventListener(
-
-"keydown",
-
-(e)=>{
-
-if(e.key==="Enter"){
-
-searchBtn.click();
-
-}
-
-}
-
-);
-
-
-
-// ---------- AUTO LOAD DEFAULT ----------
-
-getWeatherByCity(
-"Ahmedabad"
-);
-
-
-
-// ---------- REQUEST LOCATION ----------
-
-function requestLocation(){
+// ---------- GEOLOCATION ----------
 
 if("geolocation" in navigator){
-
-cityEl.innerText =
-"Detecting Location...";
-
-conditionEl.innerText =
-"Please allow location access.";
 
 navigator.geolocation.getCurrentPosition(
 
@@ -184,12 +106,14 @@ maximumAge:0
 else{
 
 cityEl.innerText =
-"Geolocation Unsupported";
+"Browser unsupported";
 
 conditionEl.innerText =
-"Use city search instead.";
+"Loading fallback city...";
 
-}
+getWeatherByCity(
+"Ahmedabad"
+);
 
 }
 
@@ -205,7 +129,10 @@ position.coords.latitude;
 const lon =
 position.coords.longitude;
 
-getWeather(lat,lon);
+getWeather(
+lat,
+lon
+);
 
 }
 
@@ -218,10 +145,10 @@ function error(err){
 console.log(err);
 
 cityEl.innerText =
-"Location Denied";
+"Location unavailable";
 
 conditionEl.innerText =
-"Showing Ahmedabad weather.";
+"Loading fallback city...";
 
 getWeatherByCity(
 "Ahmedabad"
@@ -231,9 +158,12 @@ getWeatherByCity(
 
 
 
-// ---------- WEATHER FETCH ----------
+// ---------- WEATHER FETCH LAT/LON ----------
 
-async function getWeather(lat,lon){
+async function getWeather(
+lat,
+lon
+){
 
 try{
 
@@ -264,9 +194,11 @@ cityEl.innerText =
 
 
 
-// ---------- WEATHER BY CITY ----------
+// ---------- WEATHER FETCH CITY ----------
 
-async function getWeatherByCity(city){
+async function getWeatherByCity(
+city
+){
 
 try{
 
@@ -301,9 +233,57 @@ catch(err){
 
 console.log(err);
 
+cityEl.innerText =
+"Search Failed";
+
 }
 
 }
+
+
+
+// ---------- SEARCH BUTTON ----------
+
+searchBtn.addEventListener(
+
+"click",
+
+()=>{
+
+const city =
+cityInput.value.trim();
+
+if(city){
+
+getWeatherByCity(
+city
+);
+
+}
+
+}
+
+);
+
+
+
+// ---------- ENTER KEY ----------
+
+cityInput.addEventListener(
+
+"keydown",
+
+(e)=>{
+
+if(e.key==="Enter"){
+
+searchBtn.click();
+
+}
+
+}
+
+);
 
 
 
@@ -330,7 +310,6 @@ Math.round(
 data.wind.speed*3.6
 )+" km/h";
 
-
 const weather =
 data.weather[0].main;
 
@@ -346,18 +325,19 @@ hour
 
 
 
-// ---------- THEME SWITCH ----------
+// ---------- THEME SWITCHING ----------
 
 function applyTheme(
 weather,
 hour
 ){
 
-document.body.className="";
+document.body.className =
+"";
 
 
 
-// ---------- RAIN ----------
+// RAIN
 
 if(
 
@@ -383,7 +363,7 @@ return;
 
 
 
-// ---------- THUNDER ----------
+// STORM
 
 if(
 
@@ -407,7 +387,7 @@ return;
 
 
 
-// ---------- CLOUDS ----------
+// CLOUDS
 
 if(
 
@@ -431,7 +411,7 @@ return;
 
 
 
-// ---------- NIGHT ----------
+// NIGHT
 
 if(
 
@@ -457,7 +437,7 @@ return;
 
 
 
-// ---------- SUNNY ----------
+// SUNNY DEFAULT
 
 document.body.classList.add(
 "sunny"
@@ -470,4 +450,3 @@ spotify.src =
 playlists.sunny;
 
 }
-```
