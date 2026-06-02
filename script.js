@@ -1,24 +1,50 @@
+```javascript
 // ===============================
-// WEATHER TUNES
+// WEATHERTUNES
 // ===============================
 
 
 // ---------- API KEY ----------
 
-const API_KEY = "c7381768e61790666afe986230e94282";
+const API_KEY =
+"c7381768e61790666afe986230e94282";
+
 
 
 // ---------- ELEMENTS ----------
 
-const cityEl = document.getElementById("city");
-const tempEl = document.getElementById("temp");
-const conditionEl = document.getElementById("condition");
-const humidityEl = document.getElementById("humidity");
-const windEl = document.getElementById("wind");
-const dateEl = document.getElementById("date");
+const cityEl =
+document.getElementById("city");
 
-const video = document.getElementById("bg-video");
-const spotify = document.getElementById("spotify-player");
+const tempEl =
+document.getElementById("temp");
+
+const conditionEl =
+document.getElementById("condition");
+
+const humidityEl =
+document.getElementById("humidity");
+
+const windEl =
+document.getElementById("wind");
+
+const dateEl =
+document.getElementById("date");
+
+const video =
+document.getElementById("bg-video");
+
+const spotify =
+document.getElementById("spotify-player");
+
+const cityInput =
+document.getElementById("city-input");
+
+const searchBtn =
+document.getElementById("search-btn");
+
+const locationBtn =
+document.getElementById("location-btn");
 
 
 
@@ -27,66 +53,180 @@ const spotify = document.getElementById("spotify-player");
 const playlists = {
 
 rain:
-"https://open.spotify.com/embed/playlist/5LAe5v55uamtXa1hILBjeQ?utm_source=generator",
+"https://open.spotify.com/embed/playlist/37i9dQZF1DX2mKzQ3tl6gD",
 
 sunny:
-"https://open.spotify.com/playlist/6XwhBsU30XulZs4YJJ3usk?si=155caea484b94cf"
+"https://open.spotify.com/embed/playlist/37i9dQZF1DX0XUsuxWHRQd",
 
 cloudy:
-"https://open.spotify.com/embed/playlist/7G8ba4IDCXRV04Q2rORD94?utm_source=generator",
+"https://open.spotify.com/embed/playlist/37i9dQZF1DX4WYpdgoIcn6",
 
 night:
-"https://open.spotify.com/embed/playlist/5gikXqUHz8LvMz0oggsmm5?utm_source=generator",
+"https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO",
 
 storm:
-"https://open.spotify.com/embed/playlist/5nB0aS2goHzFPrvxJAYlwz?utm_source=generator"
+"https://open.spotify.com/embed/playlist/37i9dQZF1DX76Wlfdnj7AP"
 
 };
+
+
 
 // ---------- DATE ----------
 
 const today = new Date();
 
-dateEl.innerText = today.toLocaleDateString(
-    "en-IN",
-    {
-        weekday:"long",
-        day:"numeric",
-        month:"long"
-    }
+dateEl.innerText =
+today.toLocaleDateString(
+"en-IN",
+{
+weekday:"long",
+day:"numeric",
+month:"long"
+}
 );
 
 
 
-// ---------- GEOLOCATION ----------
+// ---------- LOCATION BUTTON ----------
+
+locationBtn.addEventListener(
+
+"click",
+
+()=>{
+
+requestLocation();
+
+}
+
+);
+
+
+
+// ---------- SEARCH BUTTON ----------
+
+searchBtn.addEventListener(
+
+"click",
+
+()=>{
+
+const city =
+cityInput.value.trim();
+
+if(city){
+
+getWeatherByCity(city);
+
+}
+
+}
+
+);
+
+
+
+// ---------- ENTER KEY ----------
+
+cityInput.addEventListener(
+
+"keydown",
+
+(e)=>{
+
+if(e.key==="Enter"){
+
+searchBtn.click();
+
+}
+
+}
+
+);
+
+
+
+// ---------- AUTO LOAD DEFAULT ----------
+
+getWeatherByCity(
+"Ahmedabad"
+);
+
+
+
+// ---------- REQUEST LOCATION ----------
+
+function requestLocation(){
+
+if("geolocation" in navigator){
+
+cityEl.innerText =
+"Detecting Location...";
+
+conditionEl.innerText =
+"Please allow location access.";
 
 navigator.geolocation.getCurrentPosition(
-    success,
-    error
+
+success,
+
+error,
+
+{
+enableHighAccuracy:true,
+timeout:10000,
+maximumAge:0
+}
+
 );
 
+}
+else{
 
+cityEl.innerText =
+"Geolocation Unsupported";
 
-// SUCCESS
+conditionEl.innerText =
+"Use city search instead.";
 
-function success(position){
+}
 
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
-
-    getWeather(lat,lon);
 }
 
 
 
-// ERROR
+// ---------- SUCCESS ----------
 
-function error(){
+function success(position){
 
-    cityEl.innerText = "Location denied";
+const lat =
+position.coords.latitude;
 
-    conditionEl.innerText =
-    "Allow location permission.";
+const lon =
+position.coords.longitude;
+
+getWeather(lat,lon);
+
+}
+
+
+
+// ---------- ERROR ----------
+
+function error(err){
+
+console.log(err);
+
+cityEl.innerText =
+"Location Denied";
+
+conditionEl.innerText =
+"Showing Ahmedabad weather.";
+
+getWeatherByCity(
+"Ahmedabad"
+);
+
 }
 
 
@@ -95,29 +235,73 @@ function error(){
 
 async function getWeather(lat,lon){
 
-    try{
+try{
 
-        const url =
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+const url =
 
-        const response =
-        await fetch(url);
+`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
 
-        const data =
-        await response.json();
+const response =
+await fetch(url);
 
-        updateUI(data);
+const data =
+await response.json();
 
-    }
+updateUI(data);
 
-    catch(err){
+}
 
-        console.log(err);
+catch(err){
 
-        cityEl.innerText =
-        "Weather Error";
+console.log(err);
 
-    }
+cityEl.innerText =
+"Weather Error";
+
+}
+
+}
+
+
+
+// ---------- WEATHER BY CITY ----------
+
+async function getWeatherByCity(city){
+
+try{
+
+const url =
+
+`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
+
+const response =
+await fetch(url);
+
+const data =
+await response.json();
+
+
+if(data.cod != 200){
+
+cityEl.innerText =
+"City Not Found";
+
+conditionEl.innerText =
+"Try another city.";
+
+return;
+
+}
+
+updateUI(data);
+
+}
+
+catch(err){
+
+console.log(err);
+
+}
 
 }
 
@@ -127,121 +311,163 @@ async function getWeather(lat,lon){
 
 function updateUI(data){
 
-    cityEl.innerText =
-    data.name;
+cityEl.innerText =
+data.name;
 
-    tempEl.innerText =
-    Math.round(data.main.temp) + "°C";
+tempEl.innerText =
+Math.round(
+data.main.temp
+)+"°C";
 
-    conditionEl.innerText =
-    data.weather[0].main;
+conditionEl.innerText =
+data.weather[0].main;
 
-    humidityEl.innerText =
-    data.main.humidity + "%";
+humidityEl.innerText =
+data.main.humidity+"%";
 
-    windEl.innerText =
-    Math.round(data.wind.speed * 3.6)
-    + " km/h";
-
-
-    const weather =
-    data.weather[0].main;
-
-    const hour =
-    new Date().getHours();
+windEl.innerText =
+Math.round(
+data.wind.speed*3.6
+)+" km/h";
 
 
+const weather =
+data.weather[0].main;
 
-    applyTheme(weather,hour);
+const hour =
+new Date().getHours();
+
+applyTheme(
+weather,
+hour
+);
+
+}
+
+
+
+// ---------- THEME SWITCH ----------
+
+function applyTheme(
+weather,
+hour
+){
+
+document.body.className="";
+
+
+
+// ---------- RAIN ----------
+
+if(
+
+weather==="Rain" ||
+
+weather==="Drizzle"
+
+){
+
+document.body.classList.add(
+"rain"
+);
+
+video.src =
+"videos/rain.mp4";
+
+spotify.src =
+playlists.rain;
+
+return;
 
 }
 
 
 
-// ---------- THEME SWITCHING ----------
+// ---------- THUNDER ----------
 
-function applyTheme(weather,hour){
+if(
 
-    document.body.className = "";
+weather==="Thunderstorm"
 
+){
 
-    // RAIN
+document.body.classList.add(
+"storm"
+);
 
-    if(weather==="Rain" ||
-       weather==="Drizzle"){
+video.src =
+"videos/storm.mp4";
 
-        document.body.classList.add("rain");
+spotify.src =
+playlists.storm;
 
-        video.src =
-        "videos/rain.mp4";
-
-        spotify.src =
-        playlists.rain;
-
-        return;
-    }
-
-
-
-    // THUNDER
-
-    if(weather==="Thunderstorm"){
-
-        document.body.classList.add("storm");
-
-        video.src =
-        "videos/storm.mp4";
-
-        spotify.src =
-        playlists.storm;
-
-        return;
-    }
-
-
-
-    // CLOUDS
-
-    if(weather==="Clouds"){
-
-        document.body.classList.add("cloudy");
-
-        video.src =
-        "videos/cloudy.mp4";
-
-        spotify.src =
-        playlists.cloudy;
-
-        return;
-    }
-
-
-
-    // NIGHT MODE
-
-    if(hour>=19 || hour<=5){
-
-        document.body.classList.add("night");
-
-        video.src =
-        "videos/night.mp4";
-
-        spotify.src =
-        playlists.night;
-
-        return;
-    }
-
-
-
-    // SUNNY DEFAULT
-
-    document.body.classList.add("sunny");
-
-    video.src =
-    "videos/sunny.mp4";
-
-    spotify.src =
-    playlists.sunny;
+return;
 
 }
+
+
+
+// ---------- CLOUDS ----------
+
+if(
+
+weather==="Clouds"
+
+){
+
+document.body.classList.add(
+"cloudy"
+);
+
+video.src =
+"videos/cloudy.mp4";
+
+spotify.src =
+playlists.cloudy;
+
+return;
+
+}
+
+
+
+// ---------- NIGHT ----------
+
+if(
+
+hour>=19 ||
+
+hour<=5
+
+){
+
+document.body.classList.add(
+"night"
+);
+
+video.src =
+"videos/night.mp4";
+
+spotify.src =
+playlists.night;
+
+return;
+
+}
+
+
+
+// ---------- SUNNY ----------
+
+document.body.classList.add(
+"sunny"
+);
+
+video.src =
+"videos/sunny.mp4";
+
+spotify.src =
+playlists.sunny;
+
+}
+```
