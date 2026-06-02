@@ -1,14 +1,11 @@
 // ===============================
-// WEATHER TUNES V2.5
+// WEATHER TUNES V2.5 FIXED
 // ===============================
-
 
 // ---------- API KEY ----------
 
 const API_KEY =
 "c7381768e61790666afe986230e94282";
-
-
 
 // ---------- ELEMENTS ----------
 
@@ -36,14 +33,6 @@ document.getElementById("bg-video");
 const spotify =
 document.getElementById("spotify-player");
 
-const cityInput =
-document.getElementById("city-input");
-
-const searchBtn =
-document.getElementById("search-btn");
-
-
-
 // ---------- PLAYLISTS ----------
 
 const playlists = {
@@ -52,7 +41,7 @@ rain:
 "https://open.spotify.com/embed/playlist/5LAe5v55uamtXa1hILBjeQ?utm_source=generator",
 
 sunny:
-"https://open.spotify.com/playlist/6XwhBsU30XulZs4YJJ3usk?si=155caea484b94cf",
+"https://open.spotify.com/embed/playlist/6XwhBsU30XulZs4YJJ3usk?utm_source=generator",
 
 cloudy:
 "https://open.spotify.com/embed/playlist/7G8ba4IDCXRV04Q2rORD94?utm_source=generator",
@@ -61,7 +50,7 @@ night:
 "https://open.spotify.com/embed/playlist/5gikXqUHz8LvMz0oggsmm5?utm_source=generator",
 
 storm:
-"https://open.spotify.com/embed/playlist/5nB0aS2goHzFPrvxJAYlwz?utm_source=generator",
+"https://open.spotify.com/embed/playlist/5nB0aS2goHzFPrvxJAYlwz?utm_source=generator"
 
 };
 
@@ -80,8 +69,6 @@ month:"long"
 }
 );
 
-
-
 // ---------- GEOLOCATION ----------
 
 if("geolocation" in navigator){
@@ -94,7 +81,7 @@ error,
 
 {
 enableHighAccuracy:true,
-timeout:10000,
+timeout:15000,
 maximumAge:0
 }
 
@@ -107,15 +94,9 @@ cityEl.innerText =
 "Browser unsupported";
 
 conditionEl.innerText =
-"Loading fallback city...";
-
-getWeatherByCity(
-"Ahmedabad"
-);
+"Location not supported";
 
 }
-
-
 
 // ---------- SUCCESS ----------
 
@@ -134,27 +115,26 @@ lon
 
 }
 
-
-
 // ---------- ERROR ----------
 
 function error(err){
 
-console.log(err);
+console.log(
+"Location Error:",
+err
+);
 
 cityEl.innerText =
-"Location unavailable";
+"Location denied";
 
 conditionEl.innerText =
-"Loading fallback city...";
+"Showing Ahmedabad";
 
 getWeatherByCity(
 "Ahmedabad"
 );
 
 }
-
-
 
 // ---------- WEATHER FETCH LAT/LON ----------
 
@@ -190,8 +170,6 @@ cityEl.innerText =
 
 }
 
-
-
 // ---------- WEATHER FETCH CITY ----------
 
 async function getWeatherByCity(
@@ -210,14 +188,13 @@ await fetch(url);
 const data =
 await response.json();
 
-
 if(data.cod != 200){
 
 cityEl.innerText =
 "City Not Found";
 
 conditionEl.innerText =
-"Try another city.";
+"Try Again";
 
 return;
 
@@ -232,58 +209,11 @@ catch(err){
 console.log(err);
 
 cityEl.innerText =
-"Search Failed";
+"Weather Error";
 
 }
 
 }
-
-
-
-// ---------- SEARCH BUTTON ----------
-
-searchBtn.addEventListener(
-
-"click",
-
-()=>{
-
-const city =
-cityInput.value.trim();
-
-if(city){
-
-getWeatherByCity(
-city
-);
-
-}
-
-}
-
-);
-
-
-
-// ---------- ENTER KEY ----------
-
-cityInput.addEventListener(
-
-"keydown",
-
-(e)=>{
-
-if(e.key==="Enter"){
-
-searchBtn.click();
-
-}
-
-}
-
-);
-
-
 
 // ---------- UPDATE UI ----------
 
@@ -321,8 +251,6 @@ hour
 
 }
 
-
-
 // ---------- THEME SWITCHING ----------
 
 function applyTheme(
@@ -333,16 +261,11 @@ hour
 document.body.className =
 "";
 
-
-
 // RAIN
 
 if(
-
 weather==="Rain" ||
-
 weather==="Drizzle"
-
 ){
 
 document.body.classList.add(
@@ -359,14 +282,10 @@ return;
 
 }
 
-
-
 // STORM
 
 if(
-
 weather==="Thunderstorm"
-
 ){
 
 document.body.classList.add(
@@ -383,14 +302,10 @@ return;
 
 }
 
-
-
 // CLOUDS
 
 if(
-
 weather==="Clouds"
-
 ){
 
 document.body.classList.add(
@@ -407,16 +322,11 @@ return;
 
 }
 
-
-
 // NIGHT
 
 if(
-
 hour>=19 ||
-
 hour<=5
-
 ){
 
 document.body.classList.add(
@@ -432,8 +342,6 @@ playlists.night;
 return;
 
 }
-
-
 
 // SUNNY DEFAULT
 
